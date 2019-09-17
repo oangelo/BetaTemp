@@ -21,10 +21,18 @@ class BetaTemp{
       temp -=273.15; // Converte para Celsius
       return temp;
     };
+    float get_mean_temp(){
+      return mean_temps();  
+    }
   private: 
+    float temps[10];
     unsigned analog_pin;
     long int ntcnom;
     unsigned tempnom; 
     unsigned bcoeficient;
     unsigned rseries; 
+    add_new_temp(){
+    }
+    float mean_temps(){
+    }
 };
