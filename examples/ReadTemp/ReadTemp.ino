@@ -1,6 +1,6 @@
 #include <BetaTemp.h>
 
-BetaTemp T1(A0, 10000);
+BetaTemp temp1(A0, 10000);
 
 void setup() 
 {
@@ -9,6 +9,6 @@ void setup()
 
 void loop() 
 {
-  Serial.println(T1.get_temp());
+  Serial.println(temp1.get_temp());
   delay(1000);
 }

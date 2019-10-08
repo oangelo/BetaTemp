@@ -1,8 +1,13 @@
+#define SIZE_ARRAY 10
+
 class BetaTemp{
   public:
-    BetaTemp(unsigned analog_pin, unsigned rseries, long int ntcnom = 100000, unsigned tempnom = 25, unsigned bcoeficient = 3950): analog_pin(analog_pin), ntcnom(ntcnom), tempnom(tempnom), bcoeficient(bcoeficient), rseries(rseries)
+    BetaTemp(uint8_t analog_pin, unsigned rseries, long int ntcnom = 100000, unsigned tempnom = 25, unsigned bcoeficient = 3950): analog_pin(analog_pin), ntcnom(ntcnom), tempnom(tempnom), bcoeficient(bcoeficient), rseries(rseries)
     {
       pinMode(analog_pin, INPUT);
+      for(unsigned i=0; i < 10; ++i){
+        temps[i] = get_temp();
+      }
     }
     /******************************************************************/
     /*       Utiliza a equação do Fator Beta:                         */
@@ -22,17 +27,27 @@ class BetaTemp{
       return temp;
     };
     float get_mean_temp(){
+      add_new_temp();
       return mean_temps();  
     }
   private: 
-    float temps[10];
+    float temps[SIZE_ARRAY];
     unsigned analog_pin;
     long int ntcnom;
     unsigned tempnom; 
     unsigned bcoeficient;
     unsigned rseries; 
-    add_new_temp(){
+    void add_new_temp(){
+      for(unsigned i=0; i < SIZE_ARRAY-1; ++i){
+        temps[i] = temps[i+1];
+      }
+      temps[9]=get_temp();
     }
     float mean_temps(){
+      float mean(0);
+      for(unsigned i=0; i < SIZE_ARRAY; ++i){
+        mean += temps[i] / SIZE_ARRAY;
+      }
+      return mean;
     }
 };
